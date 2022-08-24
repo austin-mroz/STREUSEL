@@ -8,7 +8,7 @@ import pickle
 import shutil
 import math
 import os
-import scipy
+import scipy.ndimage
 import itertools
 
 
@@ -78,10 +78,10 @@ class Material:
         print(mi, mj, mk)
         efield_view = efield[:-1, :-1, :-1]
         efield_diff = efield_view - efield[1:, 1:, 1:]
-        np.absoulte(efield_diff, out=efield_diff)
+        np.absolute(efield_diff, out=efield_diff)
         is_vacuum = efield_diff < cv
         is_non_vacuum = np.logical_not(is_vacuum)
-        vacuum = efield_view[is_non_vacuum]
+        vacuum = efield_view[is_vacuum]
         non_vacuum = efield_view[is_non_vacuum]
         nvac_ijk = np.argwhere(is_non_vacuum)
         weights = np.zeros((3, 3, 3))
@@ -100,8 +100,8 @@ class Material:
             mode='wrap',
         )
         np.multiply(
-            x1=convolution_result,
-            x2=is_non_vacuum.view(np.in8),
+            convolution_result,
+            is_non_vacuum.view(np.int8),
             out=convolution_result,
         )
         surface_mask = convolution_result > 0
@@ -218,7 +218,7 @@ class Material:
         # cvf.create_vacs(vx, vy, vz)
         # except Exception:
         # cvf.remove_vacs(vx)
-        path = '/home/hmspanama/Desktop/CMOFs/label_CoREMOFs'
+        path = '/home/he/bin/github_clones/STREUSEL/examples/'
         try:
             os.makedirs(path + '/sepvac/')
         except OSError:
