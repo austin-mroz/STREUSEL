@@ -16,7 +16,7 @@ def read_cube_file(filename):
 
     with open(filename, 'r') as cube:
         lines = cube.readlines()
-    origin = [float(i) for i in lines[2].split()[1:-1]]
+    origin = [float(i) for i in lines[2].split()[1:]]
 
     return potential, NGX, NGY, NGZ, atoms, vectors, coords, atom_types, origin, resolution
 
