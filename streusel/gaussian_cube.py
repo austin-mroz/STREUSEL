@@ -331,11 +331,11 @@ class Molecule:
                 is_non_vacuum.view(np.int8),
                 out=convolution_result,
                 )
-        surface_mask = convolution_result > 0
-        surf_ijk = np.argwhere(surface_mask)
+        self.surface_mask = convolution_result > 0
+        surf_ijk = np.argwhere(self.surface_mask)
         self.sijk = surf_ijk
         mk = (vecs[0]/ngs[0]) * (vecs[1]/ngs[1])
-        self.sarea = np.sum(surface_mask) * mk * np.power(0.529, 2)
+        self.sarea = np.sum(self.surface_mask) * mk * np.power(0.529, 2)
         self.sarea2 = np.sum(convolution_result) * mk
         self.optimized_method_curl = np.array(efield_diff)
 
