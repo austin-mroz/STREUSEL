@@ -262,10 +262,10 @@ class Molecule:
                 is_non_vacuum.view(np.int8),
                 out=convolution_result,
                 )
-        surface_mask = convolution_result > 0
-        surf_ijk = np.argwhere(surface_mask)
+        self.surface_mask = convolution_result > 0
+        surf_ijk = np.argwhere(self.surface_mask)
         mk = (vecs[0]/ngs[0]) * (vecs[1]/ngs[1])
-        sarea = np.sum(surface_mask) * mk
+        sarea = np.sum(self.surface_mask) * mk
         sarea2 = np.sum(convolution_result) * mk
         print('surface areas ', sarea, sarea2)
         print('volume', np.sum(is_non_vacuum)*vol_per_cube)
